@@ -164,6 +164,13 @@ my_square.draw
 
 
 
+# Embedded ruby in HTML - Form
+# <%= form_tag root_path, :method => 'POST' do %>
+#  <%= text_field_tag 'id', nil, placeholder: "Enter Company Ticker Symbol', size: 50 %>
+#  <%= submit_tag 'Submit' %>
+# <% end %>
+
+
 
 
 

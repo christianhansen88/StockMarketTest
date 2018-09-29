@@ -1,2 +1,27 @@
 <h1>Stock Market App</h1>
-<p>Welcome to the Stock Market App website!</p>
+<p>Lookup any stock, by typing in the Company ticker symbol:</p>
+
+<%= form_tag root_path, :method => 'POST' do %>
+  <div class="form-group">
+    <%= text_field_tag 'id', nil, placeholder: 'Enter Company Ticker Symbol', size: 50 %>
+    <%= submit_tag 'Submit', class:'btn btn-default' %>
+  </div> 
+<% end %>
+
+</br>
+
+<% if @stock %>
+<b>Company Name: </b> <%= @stock.company_name %> </br>
+<b>Symbol: </b> <%= @stock.symbol %> </br>
+<b>Sector: </b> <%= @stock.sector %> </br>
+<b>Primary exchange: </b> <%= @stock.primary_exchange %> </br>
+<b>Market cap: </b> <%= @stock.market_cap %> </br>
+<b>Latest price: </b> <%= @stock.latest_price %> </br>
+<b>Opening price: </b> <%= @stock.open %> </br>
+<b>Highest price this year: </b> <%= @stock.week52_high %> </br>
+<b>Lowest price this year: </b> <%= @stock.week52_low %>
+<% elsif @nothing %>
+<%= @nothing %>
+<% elsif @error %>
+<%= @error %>
+<% end %>
