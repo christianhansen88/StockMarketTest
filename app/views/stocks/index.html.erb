@@ -1,27 +1,47 @@
-<h1>Listing stocks</h1>
+<h1>My Stock List</h1>
 
-<table>
+<br>
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h4 class="panel-title">Add Stock to List</h4>
+  </div>
+  <div class="panel-body">
+    <%= render 'form' %>
+  </div>
+</div>
+
+<br> <br>
+
+<table class="table table-striped table-bordered table-hover">
   <thead>
     <tr>
       <th>Ticker</th>
-      <th>User</th>
-      <th colspan="3"></th>
+      <th>Company Name</th>
+      <th>Latest Price</th>
+      <th colspan="1"></th>
     </tr>
   </thead>
 
   <tbody>
     <% @stocks.each do |stock| %>
-      <tr>
-        <td><%= stock.ticker %></td>
-        <td><%= stock.user_id %></td>
-        <td><%= link_to 'Show', stock %></td>
-        <td><%= link_to 'Edit', edit_stock_path(stock) %></td>
-        <td><%= link_to 'Destroy', stock, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
+      <% if stock.user_id == current_user.id %>
+        <% @stock_quote = StockQuote::Stock.quote(stock.ticker) %>
+        <tr>
+        <td><%= link_to stock.ticker, stock %></td>
+          
+        <% if @stock_quote == nil %>
+         <td>Error</td> 
+         <td>Error</td> 
+        <% else %>
+          <td><%= @stock_quote.company_name %></td> 
+          <td><%= @stock_quote.latest_price %></td> 
+        <% end %>
+        <td><center><%= link_to 'Edit', edit_stock_path(stock), class:"btn btn-default btn-xs" %>  <%= link_to 'Delete', stock, method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-default btn-xs" %></center></td>
+    </tr>
+      <% end %>
     <% end %>
   </tbody>
 </table>
 
 <br>
-
-<%= link_to 'New Stock', new_stock_path %>

@@ -1,12 +1,29 @@
-<p>
-  <strong>Ticker:</strong>
-  <%= @stock.ticker %>
-</p>
-
-<p>
-  <strong>User:</strong>
-  <%= @stock.user_id %>
-</p>
-
-<%= link_to 'Edit', edit_stock_path(@stock) %> |
-<%= link_to 'Back', stocks_path %>
+<% @stock_quote = StockQuote::Stock.quote(@stock.ticker) %>
+  
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title"><b><%= @stock.ticker %></b></h3>
+  </div>
+  <div class="panel-body">
+    
+    <% if @stock_quote == nil %>
+         <b>Error: No stock information was found</b> 
+        <% else %>
+          <b>Company Name: </b> <%= @stock_quote.company_name %> </br>
+          <b>Symbol: </b> <%= @stock.ticker %> </br>
+          <b>Sector: </b> <%= @stock_quote.sector %> </br>
+          <b>Primary exchange: </b> <%= @stock_quote.primary_exchange %> </br>
+          <b>Market cap: </b> $<%= @stock_quote.market_cap %> </br>
+          <b>Latest price: </b> $<%= @stock_quote.latest_price %> </br>
+          <b>Opening price: </b> $<%= @stock_quote.open %> </br>
+          <b>Highest price this year: </b> $<%= @stock_quote.week52_high %> </br>
+          <b>Lowest price this year: </b> $<%= @stock_quote.week52_low %>
+        <% end %>
+    
+  </div>
+  <div class="panel-footer">
+    <%= link_to 'Edit', edit_stock_path(@stock), class:"btn btn-default" %>
+    <%= link_to 'Delete', stock_path(@stock), method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-default" %>
+    <%= link_to 'Back', stocks_path, class:"btn btn-default" %>
+  </div>
+</div>
